@@ -1,0 +1,48 @@
+label[data-v-28eaeaa0],
+input[data-v-28eaeaa0],
+select[data-v-28eaeaa0],
+button[data-v-28eaeaa0] {
+ margin-right:1em
+}
+.action[data-v-28eaeaa0] {
+ width:100%;
+ display:inline-grid;
+ grid-template-columns:max-content max-content auto 150px
+}
+.track[data-v-7ebf230d] {
+ display:grid;
+ grid-template-columns:1fr 8em 8em
+}
+.broken.title[data-v-7ebf230d] {
+ text-decoration:line-through
+}
+.current.title[data-v-7ebf230d] {
+ font-weight:700
+}
+.player[data-v-a2245661] {
+ margin-top:1em
+}
+.new-playing[data-v-a2245661] {
+ width:100%;
+ display:grid;
+ grid-template-columns:max-content 6em auto
+}
+.title[data-v-a2245661] {
+ padding-right:2em
+}
+progress[data-v-a2245661] {
+ width:100%
+}
+fieldset[data-v-a2245661] {
+ margin-top:1em
+}
+.playback[data-v-a2245661] {
+ display:grid;
+ grid-template-columns:repeat(3,40px 1fr)
+}
+main[data-v-6223eb10] {
+ margin-top:60px;
+ margin-left:auto;
+ margin-right:auto;
+ max-width:600px
+}
