@@ -1,40 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jukebox</title>
+  <link rel="stylesheet" href="style.css">
+
+  <script src="script.js"></script>
+</head>
 <body>
-  <div id="app" data-v-app="">
-    <main data-v-6223eb10="">
-      <h1 data-v-6223eb10="">Jukebox</h1>
-      <section data-v-a2245661="" data-v-6223eb10="" class="player">
-        <h2 data-v-a2245661="">Player</h2>
-        <div data-v-a2245661=""> Choose a track to play. </div>
 
-        <fieldset data-v-a2245661="" class="playback">
-          <legend data-v-a2245661="">Playback mode</legend>
-          <input data-v-a2245661="" id="inputRepeatList" type="radio" value="REPEAT_LIST">
-          <label data-v-a2245661="" for="inputRepeatList">Repeat list</label>
-          <input data-v-a2245661="" id="inputRepeatTrack" type="radio" value="REPEAT_TRACK">
-          <label data-v-a2245661="" for="inputRepeatTrack">Repeat track</label>
-          <input data-v-a2245661="" id="inputMoRepeat" type="radio" value="NO_REPEAT">
-          <label data-v-a2245661="" for="inputMoRepeat">Don't repeat</label>
-        </fieldset>
-      </section>
-      
-      <section data-v-7ebf230d="" data-v-6223eb10="">
-        <h2 data-v-7ebf230d="">Playlist</h2>
-        <div data-v-7ebf230d="">Add a new track to the playlist.</div>
-      </section>
+<div id="app">
+  <main>
+    <h1>Jukebox</h1>
 
-      <section data-v-28eaeaa0="" data-v-6223eb10="">
-        <h2 data-v-28eaeaa0="">New track</h2>
-        <div data-v-28eaeaa0="" class="action">
-          <label data-v-28eaeaa0="" for="method-selector">Add track</label>
-          <select data-v-28eaeaa0="" id="method-selector">
-            <option data-v-28eaeaa0="" value="url">By URL</option>
-            <option data-v-28eaeaa0="" value="local">Via file upload</option>
-          </select>
+    <!-- Player Section -->
+    <section class="player-section">
+      <h2>Player</h2>
+      <div class="current-track">Choose a track to play.</div>
+      <div id="appppp">
+        <progress :value="progress"></progress>
+      </div>
 
-          <input data-v-28eaeaa0="" placeholder="Provide URL" type="text">
-          <button data-v-28eaeaa0="" disabled="">Add by URL</button>
+      <fieldset class="playback-mode">
+        <legend>Playback Mode</legend>
+        <input id="repeat-list" type="radio" name="playback" value="REPEAT_LIST">
+        <label for="repeat-list">Repeat List</label>
+
+        <input id="repeat-track" type="radio" name="playback" value="REPEAT_TRACK">
+        <label for="repeat-track">Repeat Track</label>
+
+        <input id="no-repeat" type="radio" name="playback" value="NO_REPEAT">
+        <label for="no-repeat">Don't Repeat</label>
+      </fieldset>
+    </section>
+
+    <!-- Playlist Section -->
+    <section class="playlist-section">
+      <h2>Playlist</h2>
+      <div class="playlist-description">Add a new track to the playlist.</div>
+      <ul class="playlist"></ul>
+    </section>
+
+    <!-- New Track Section -->
+    <section class="new-track-section">
+      <div class="add-track">
+        <label for="track-method">Add Track</label>
+        <select id="track-method">
+          <option value="url">By URL</option>
+          <option value="local">Via File Upload</option>
+        </select>
+
+        <div id="input-container">
+          <input id="track-url" type="text" placeholder="Provide URL">
+          <button id="add-url" disabled>Add by URL</button>
         </div>
-      </section>
-    </main>
-  </div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+
 </body>
+</html>

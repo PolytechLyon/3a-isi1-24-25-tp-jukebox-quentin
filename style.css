@@ -1,48 +1,85 @@
-label[data-v-28eaeaa0],
-input[data-v-28eaeaa0],
-select[data-v-28eaeaa0],
-button[data-v-28eaeaa0] {
- margin-right:1em
+body {
+ font-family: Arial, sans-serif;
+ margin: 0;
+ padding: 0;
+ background-color: #f8f9fa;
+ color: #333;
 }
-.action[data-v-28eaeaa0] {
- width:100%;
- display:inline-grid;
- grid-template-columns:max-content max-content auto 150px
+
+main {
+ padding: 20px;
+ max-width: 800px;
+ margin: 0 auto;
 }
-.track[data-v-7ebf230d] {
- display:grid;
- grid-template-columns:1fr 8em 8em
+
+h1, h2 {
+ color: #007bff;
 }
-.broken.title[data-v-7ebf230d] {
- text-decoration:line-through
+
+fieldset {
+ border: 1px solid #ddd;
+ padding: 10px;
+ margin-bottom: 20px;
 }
-.current.title[data-v-7ebf230d] {
- font-weight:700
+
+fieldset legend {
+ font-weight: bold;
 }
-.player[data-v-a2245661] {
- margin-top:1em
+
+button {
+ padding: 10px 15px;
+ background-color: #007bff;
+ color: white;
+ border: none;
+ cursor: pointer;
 }
-.new-playing[data-v-a2245661] {
- width:100%;
- display:grid;
- grid-template-columns:max-content 6em auto
+
+button:disabled {
+ background-color: #ccc;
+ cursor: not-allowed;
 }
-.title[data-v-a2245661] {
- padding-right:2em
+
+button:hover:not(:disabled) {
+ background-color: #0056b3;
 }
-progress[data-v-a2245661] {
- width:100%
+
+.player > div {
+ font-size: 1.1em;
+ margin-bottom: 10px;
 }
-fieldset[data-v-a2245661] {
- margin-top:1em
+
+/* CSS for progress bar */
+progress {
+ width: 100%;
+ height: 20px;
+ border: none;
+ border-radius: 10px;
+ background-color: #e0e0e0;
+ box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+ appearance: none; /* Remove default styles */
 }
-.playback[data-v-a2245661] {
- display:grid;
- grid-template-columns:repeat(3,40px 1fr)
+
+progress::-webkit-progress-bar {
+ background-color: #e0e0e0; /* Background of the bar */
+ border-radius: 10px;
+ box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
-main[data-v-6223eb10] {
- margin-top:60px;
- margin-left:auto;
- margin-right:auto;
- max-width:600px
+
+progress::-webkit-progress-value {
+ background: linear-gradient(90deg, #ff7f50, #ff4500);
+ border-radius: 10px; /* Rounded ends */
+ transition: width 0.3s ease; /* Smooth animation */
+}
+
+progress::-moz-progress-bar {
+ background: linear-gradient(90deg, #ff7f50, #ff4500);
+ border-radius: 10px;
+ transition: width 0.3s ease;
+}
+
+/* Add a gradient effect for modern browsers */
+progress::-ms-fill {
+ background: linear-gradient(90deg, #ff7f50, #ff4500);
+ border-radius: 10px;
+ transition: width 0.3s ease;
 }
