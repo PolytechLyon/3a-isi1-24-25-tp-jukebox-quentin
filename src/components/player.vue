@@ -1,89 +1,62 @@
 <template>
   <section class="player-section">
-    <h2>Player</h2>
-    <div class="current-track">{{ currentTrackTitle }}</div>
-
-    <audio ref="audio" :src="currentTrackUrl" @ended="onTrackEnd"></audio>
-
-    <div class="controls">
-      <button @click="playAudio" :disabled="!currentTrackUrl || isPlaying">Play</button>
-      <button @click="pauseAudio" :disabled="!isPlaying">Pause</button>
-      <button @click="stopAudio" :disabled="!isPlaying">Stop</button>
+    <h2>Audio Player</h2>
+    <div class="current-track">
+      {{ currentTrackTitle }}
     </div>
 
-    <fieldset class="playback-mode">
-      <legend>Playback Mode</legend>
-      <label>
-        <input type="radio" value="REPEAT_LIST" v-model="repeatMode" />
-        Repeat List
-      </label>
-      <label>
-        <input type="radio" value="REPEAT_TRACK" v-model="repeatMode" />
-        Repeat Track
-      </label>
-      <label>
-        <input type="radio" value="NO_REPEAT" v-model="repeatMode" />
-        Don't Repeat
-      </label>
-    </fieldset>
+    <progress :value="progress" max="1"></progress>
+    <div class="controls">
+      <button @click="playAudio" :disabled="!currentTrack">Play</button>
+      <button @click="pauseAudio" :disabled="!currentTrack || audio.paused">Pause</button>
+      <button @click="stopAudio" :disabled="!currentTrack">Stop</button>
+    </div>
+
+    <audio ref="audio" @timeupdate="updateProgress" @ended="onTrackEnd"></audio>
   </section>
 </template>
 
 <script>
 export default {
   props: {
-    currentTrack: String, // Title of the current track
-    currentTrackUrl: String, // URL of the current track
+    currentTrack: Object, // La piste actuelle sélectionnée (ex : { title: 'Track 1', url: 'track1.mp3' })
   },
   data() {
     return {
-      repeatMode: 'NO_REPEAT',
-      isPlaying: false,
+      progress: 0, // Progression de la lecture entre 0 et 1
     };
   },
   computed: {
     currentTrackTitle() {
-      return this.currentTrack || 'Choose a track to play.';
+      return this.currentTrack ? this.currentTrack.title : "No track selected.";
+    },
+    audio() {
+      return this.$refs.audio; // Référence à l'élément <audio>
     },
   },
   methods: {
     playAudio() {
-      const audio = this.$refs.audio;
-      if (audio) {
-        audio.play();
-        this.isPlaying = true;
+      if (this.currentTrack) {
+        this.audio.src = this.currentTrack.url;
+        this.audio.load();
+        this.audio.play();
       }
     },
     pauseAudio() {
-      const audio = this.$refs.audio;
-      if (audio) {
-        audio.pause();
-        this.isPlaying = false;
-      }
+      this.audio.pause();
     },
     stopAudio() {
-      const audio = this.$refs.audio;
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0; // Reset playback position
-        this.isPlaying = false;
+      this.audio.pause();
+      this.audio.currentTime = 0; // Revenir au début
+      this.progress = 0;
+    },
+    updateProgress() {
+      if (this.audio.duration) {
+        this.progress = this.audio.currentTime / this.audio.duration;
       }
     },
     onTrackEnd() {
-      this.isPlaying = false;
-
-      // Emit an event to parent for next track handling
-      this.$emit('trackEnded', this.repeatMode);
-    },
-  },
-  watch: {
-    repeatMode(newValue) {
-      this.$emit('updateRepeatMode', newValue);
-    },
-    currentTrackUrl() {
-      // Automatically play the track if a new one is selected
-      this.isPlaying = false;
-      this.playAudio();
+      this.stopAudio(); // Arrêter et réinitialiser la piste lorsqu'elle est terminée
     },
   },
 };
@@ -91,9 +64,21 @@ export default {
 
 <style>
 .player-section {
-  margin: 1em 0;
+  margin: 20px 0;
 }
+
+.current-track {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+progress {
+  width: 100%;
+  height: 10px;
+  margin-bottom: 10px;
+}
+
 .controls button {
-  margin: 0 0.5em;
+  margin-right: 5px;
 }
 </style>
