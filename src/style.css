@@ -65,6 +65,44 @@ button:focus-visible {
   text-align: center;
 }
 
+.playlist-section {
+  margin: 20px 0;
+}
+
+ul.playlist {
+  list-style: none;
+  padding: 0;
+}
+
+ul.playlist li {
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.player-section {
+  margin: 20px 0;
+}
+
+.current-track {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+progress {
+  width: 100%;
+  height: 10px;
+  margin-bottom: 10px;
+}
+
+.controls button {
+  margin-right: 5px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

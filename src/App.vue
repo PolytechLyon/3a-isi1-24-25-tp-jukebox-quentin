@@ -1,12 +1,3 @@
-<template>
-  <main>
-    <h1>Jukebox</h1>
-    <Player :currentTrack="currentTrackTitle" @updateRepeatMode="updateRepeatMode" />
-    <Playlist :playlist="playlist" @playTrack="playTrack" @deleteTrack="deleteTrack" />
-    <AddTrack @addTrack="addTrack" />
-  </main>
-</template>
-
 <script>
 import Player from '../src/components/player.vue';
 import Playlist from '../src/components/playliste.vue';
@@ -53,3 +44,12 @@ export default {
   },
 };
 </script>
+
+<template>
+  <main>
+    <h1>Jukebox</h1>
+    <Player :currentTrack="currentTrackTitle" @updateRepeatMode="updateRepeatMode" />
+    <Playlist :playlist="playlist" @playTrack="playTrack" @deleteTrack="deleteTrack" />
+    <AddTrack @addTrack="addTrack" />
+  </main>
+</template>

@@ -7,7 +7,12 @@
 
     <progress :value="progress" max="1"></progress>
     <div class="controls">
-      <button @click="playAudio" :disabled="!currentTrack">Play</button>
+      <button @click="playAudio" :disabled="!currentTrack">Play
+        <svg class="play-icon" viewBox="0 0 16 16">
+            <path
+                d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path>
+          </svg>
+      </button>
       <button @click="pauseAudio" :disabled="!currentTrack || audio.paused">Pause</button>
       <button @click="stopAudio" :disabled="!currentTrack">Stop</button>
     </div>
@@ -17,6 +22,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     currentTrack: Object, // La piste actuelle sélectionnée (ex : { title: 'Track 1', url: 'track1.mp3' })
@@ -39,7 +45,7 @@ export default {
       if (this.currentTrack) {
         this.audio.src = this.currentTrack.url;
         this.audio.load();
-        this.audio.play();
+        this.audio.play().catch(error => console.error(error));
       }
     },
     pauseAudio() {
@@ -63,22 +69,5 @@ export default {
 </script>
 
 <style>
-.player-section {
-  margin: 20px 0;
-}
 
-.current-track {
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-progress {
-  width: 100%;
-  height: 10px;
-  margin-bottom: 10px;
-}
-
-.controls button {
-  margin-right: 5px;
-}
 </style>
