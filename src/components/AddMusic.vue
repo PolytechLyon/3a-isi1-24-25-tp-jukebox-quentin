@@ -39,18 +39,14 @@ export default {
     },
     addTrackByFile() {
       const file = this.$refs.fileInput.files[0];
-      const validExtensions = ['audio/mp3', 'audio/wav', 'audio/ogg']; // Ajouter d'autres types si nécessaire
-      if (file && validExtensions.includes(file.type)) {
+      if (file) {
         const track = {
           url: URL.createObjectURL(file),
           title: file.name,
         };
         this.$emit('addTrack', track);
-      } else {
-        alert('Invalid audio file type.');
       }
-    }
-
+    },
   },
 };
 </script>
