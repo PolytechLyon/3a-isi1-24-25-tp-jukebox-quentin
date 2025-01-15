@@ -7,14 +7,24 @@
 
     <progress :value="progress" max="1"></progress>
     <div class="controls">
-      <button @click="playAudio" :disabled="!currentTrack">Play
-        <svg class="play-icon" viewBox="0 0 16 16">
-            <path
-                d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288V1.713z"></path>
-          </svg>
-      </button>
+      <button @click="playAudio" :disabled="!currentTrack">Play</button>
       <button @click="pauseAudio" :disabled="!currentTrack || audio.paused">Pause</button>
       <button @click="stopAudio" :disabled="!currentTrack">Stop</button>
+    </div>
+
+    <div class="mode-selector">
+      <label>
+        <input type="radio" name="mode" value="none" v-model="mode" /> No Repeat
+      </label>
+      <label>
+        <input type="radio" name="mode" value="repeat" v-model="mode" /> Repeat All
+      </label>
+      <label>
+        <input type="radio" name="mode" value="next" v-model="mode" /> Next Track
+      </label>
+      <label>
+        <input type="radio" name="mode" value="repeat-once" v-model="mode" /> Repeat Once
+      </label>
     </div>
 
     <audio ref="audio" @timeupdate="updateProgress" @ended="onTrackEnd"></audio>
@@ -22,14 +32,18 @@
 </template>
 
 <script>
-
 export default {
   props: {
-    currentTrack: Object, // La piste actuelle sélectionnée (ex : { title: 'Track 1', url: 'track1.mp3' })
+    currentTrack: {
+      type: [Object, String], // Accepter les deux types
+      required: true,
+    },
   },
+
   data() {
     return {
-      progress: 0, // Progression de la lecture entre 0 et 1
+      progress: 0,
+      mode: 'none', // Modes : none, repeat, next, repeat-once
     };
   },
   computed: {
@@ -37,24 +51,43 @@ export default {
       return this.currentTrack ? this.currentTrack.title : "No track selected.";
     },
     audio() {
-      return this.$refs.audio; // Référence à l'élément <audio>
+      return this.$refs.audio;
+    },
+  },
+  watch: {
+    currentTrack: {
+      handler(newTrack) {
+        if (newTrack && this.audio) {
+          this.audio.pause();
+          this.audio.src = newTrack.url;
+          this.audio.load();
+          this.audio.play().catch(err => {
+            console.error("Erreur lors de la lecture :", err);
+          });
+        }
+      },
+      immediate: true,
     },
   },
   methods: {
     playAudio() {
-      if (this.currentTrack) {
-        this.audio.src = this.currentTrack.url;
-        this.audio.load();
-        this.audio.play().catch(error => console.error(error));
+      if (this.currentTrack && this.audio.paused) {
+        this.audio.play().catch(err => {
+          console.error("Erreur de lecture :", err);
+        });
       }
     },
     pauseAudio() {
-      this.audio.pause();
+      if (!this.audio.paused) {
+        this.audio.pause();
+      }
     },
     stopAudio() {
-      this.audio.pause();
-      this.audio.currentTime = 0; // Revenir au début
-      this.progress = 0;
+      if (this.currentTrack) {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.progress = 0;
+      }
     },
     updateProgress() {
       if (this.audio.duration) {
@@ -62,12 +95,59 @@ export default {
       }
     },
     onTrackEnd() {
-      this.stopAudio(); // Arrêter et réinitialiser la piste lorsqu'elle est terminée
+      switch (this.mode) {
+        case 'repeat-once':
+          this.audio.currentTime = 0;
+          this.audio.play();
+          break;
+        case 'next':
+          this.$emit('nextTrack');
+          break;
+        case 'repeat':
+          this.$emit('nextTrack');
+          break;
+        default:
+          this.stopAudio();
+          break;
+      }
     },
   },
 };
 </script>
 
 <style>
+.player-section {
+  margin: 20px 0;
+}
 
+.current-track {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+progress {
+  width: 100%;
+  height: 10px;
+  margin-bottom: 10px;
+}
+
+.controls button {
+  margin-right: 5px;
+}
+
+.mode-selector {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.mode-selector label {
+  display: flex;
+  align-items: center;
+  cursor: pointer ;
+}
+
+.mode-selector input[type="radio"] {
+  margin-right: 5px;
+}
 </style>

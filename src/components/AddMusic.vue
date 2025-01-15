@@ -17,6 +17,7 @@ export default {
     },
     addTrackByFile() {
       const file = this.$refs.fileInput.files[0];
+      console.log(file);
       if (file) {
         const track = {
           url: URL.createObjectURL(file),

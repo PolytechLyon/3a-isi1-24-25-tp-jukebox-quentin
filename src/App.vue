@@ -1,3 +1,12 @@
+<template>
+  <main>
+    <h1>Jukebox</h1>
+    <Player :currentTrack="currentTrack" @updateRepeatMode="updateRepeatMode" />
+    <Playlist :playlist="playlist" @playTrack="playTrack" @deleteTrack="deleteTrack" />
+    <AddTrack @addTrack="addTrack" />
+  </main>
+</template>
+
 <script>
 import Player from '../src/components/player.vue';
 import Playlist from '../src/components/playliste.vue';
@@ -17,10 +26,10 @@ export default {
     };
   },
   computed: {
-    currentTrackTitle() {
+    currentTrack() {
       return this.currentTrackIndex !== null
-        ? this.playlist[this.currentTrackIndex].title
-        : null;
+          ? this.playlist[this.currentTrackIndex]
+          : null;
     },
   },
   methods: {
@@ -28,28 +37,26 @@ export default {
       this.repeatMode = mode;
     },
     addTrack(track) {
-      this.playlist.push(track);
+      console.log(track);
+
+      if (track.title && track.url) {
+        this.playlist.push({
+          title: track.title,
+          url: track.url, // Assure-toi que src est une URL valide
+        });
+      } else {
+        console.error("La piste ajoutée est invalide.");
+      }
     },
     playTrack(index) {
       this.currentTrackIndex = index;
     },
     deleteTrack(index) {
-      // Arrête la piste si elle est en lecture
       if (this.currentTrackIndex === index) {
         this.currentTrackIndex = null;
       }
-      // Met à jour la playlist
       this.playlist.splice(index, 1);
     },
   },
 };
 </script>
-
-<template>
-  <main>
-    <h1>Jukebox</h1>
-    <Player :currentTrack="currentTrackTitle" @updateRepeatMode="updateRepeatMode" />
-    <Playlist :playlist="playlist" @playTrack="playTrack" @deleteTrack="deleteTrack" />
-    <AddTrack @addTrack="addTrack" />
-  </main>
-</template>
